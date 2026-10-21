@@ -514,7 +514,7 @@
     function showCookingStampReward() {
       if (!catalogDish || !selectedCity) return;
       const storageKey = 'ayoMasakProgress';
-      const savedProgress = JSON.parse(localStorage.getItem(storageKey) || '{}') || {};
+      const savedProgress = JSON.parse(window.AyoStorage.getItem(storageKey) || '{}') || {};
       const cookingStamps = Array.isArray(savedProgress.cookingStamps)
         ? savedProgress.cookingStamps
         : [];
@@ -536,7 +536,7 @@
       const isNewStamp = cityComplete && !wasCityComplete;
       if (cityComplete && !cookingStamps.includes(activeRegion)) cookingStamps.push(activeRegion);
 
-      localStorage.setItem(storageKey, JSON.stringify({
+      window.AyoStorage.setItem(storageKey, JSON.stringify({
         ...savedProgress,
         completedDishesByCity,
         cookingStamps
@@ -788,7 +788,7 @@
     continueButton.addEventListener('click', () => {
       if (!isCooked || !storyScroll.hidden) return;
       if (catalogDish && selectedCity) {
-        const savedProgress = JSON.parse(localStorage.getItem('ayoMasakProgress') || '{}') || {};
+        const savedProgress = JSON.parse(window.AyoStorage.getItem('ayoMasakProgress') || '{}') || {};
         const completedDishes = Array.isArray(savedProgress.completedDishesByCity?.[selectedCity.key])
           ? savedProgress.completedDishesByCity[selectedCity.key]
           : [];
@@ -822,7 +822,7 @@
       const cities = window.AyoDishCatalog.cities;
       const cityIndex = cities.findIndex(city => city.key === selectedCity.key);
       const nextCity = cities[(cityIndex + 1) % cities.length];
-      const savedProgress = JSON.parse(localStorage.getItem('ayoMasakProgress') || '{}') || {};
+      const savedProgress = JSON.parse(window.AyoStorage.getItem('ayoMasakProgress') || '{}') || {};
       const completedDishes = Array.isArray(savedProgress.completedDishesByCity?.[nextCity.key])
         ? savedProgress.completedDishesByCity[nextCity.key]
         : [];

@@ -39,3 +39,31 @@ onUnmounted(() => {
     {{ storageError }}
   </p>
 </template>
+
+<style>
+.application-error,
+.application-storage-error{
+  position: fixed;
+  z-index: 30000;
+  left: 50%;
+  width: min(92vw, 420px);
+  padding: 18px 22px;
+  border: 3px solid #78320f;
+  border-radius: 18px;
+  background: #fff2cf;
+  box-shadow: 0 8px 0 #54240f;
+  color: #78320f;
+  font-family: "Fredoka", system-ui, sans-serif;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.application-error{
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.application-storage-error{
+  bottom: max(16px, env(safe-area-inset-bottom));
+}
+</style>

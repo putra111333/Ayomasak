@@ -1,19 +1,24 @@
 # Dokumentasi Fungsi AyoMasak!
 
-Dokumen ini menjelaskan struktur HTML, tanggung jawab stylesheet, dan fungsi/event JavaScript pada aplikasi saat ini.
+Dokumen ini menjelaskan struktur Vue/Vite, tanggung jawab stylesheet, dan fungsi/event JavaScript pada aplikasi.
 
 ## Struktur proyek
 
 | File                                                                               | Tanggung jawab                                                                                                                                                |
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [index.html](./index.html)                                                         | Beranda peta, progres, buku stempel, panel destinasi/pengaturan/daftar masakan, dan mini-game memasak lama yang masih tertanam di halaman.                    |
-| [ayomasak-dapur.html](./ayomasak-dapur.html)                                       | Dapur utama: bahan, drag-and-drop ke wajan, validasi resep, cerita hidangan, dan hadiah stempel.                                                              |
-| [ayomasak-destinasi.html](./ayomasak-destinasi.html)                               | Menampilkan tiga resep dari kota katalog yang dipilih; setiap kartu membuka resep yang dipilih. Destinasi nonkatalog mempertahankan resep tunggal sebelumnya. |
-| [ayomasak-index-masakan.html](./ayomasak-index-masakan.html)                       | Daftar resep yang dapat dibuka dari beranda.                                                                                                                  |
-| [ayomasak-pengaturan.html](./ayomasak-pengaturan.html)                             | Tampilan pengaturan yang dibuka dalam panel tengah.                                                                                                           |
+| [index.html](./index.html)                                                         | Entry Vite untuk beranda Vue.                                                                                                                                |
+| [src/App.vue](./src/App.vue)                                                       | Memilih halaman aplikasi sesuai alamat route dan menangani pemberitahuan error penyimpanan.                                                                   |
+| [src/components/LegacyPage.vue](./src/components/LegacyPage.vue)                   | Merender markup halaman melalui siklus hidup Vue dan memuat skrip halaman secara berurutan.                                                                   |
+| [src/legacy/index.html](./src/legacy/index.html)                                   | Template beranda peta, progres, buku stempel, panel, dan mini-game memasak lama.                                                                              |
+| [src/legacy/ayomasak-dapur.html](./src/legacy/ayomasak-dapur.html)                 | Template dapur: bahan, drag-and-drop ke wajan, validasi resep, cerita hidangan, dan hadiah stempel.                                                           |
+| [src/legacy/ayomasak-destinasi.html](./src/legacy/ayomasak-destinasi.html)         | Template destinasi: pilihan resep kota dan alur mulai memasak.                                                                                                |
+| [src/legacy/ayomasak-index-masakan.html](./src/legacy/ayomasak-index-masakan.html) | Template katalog resep yang dibuka dari beranda.                                                                                                             |
+| [src/legacy/ayomasak-pengaturan.html](./src/legacy/ayomasak-pengaturan.html)       | Template pengaturan volume yang dibuka dari beranda.                                                                                                         |
+| [src/services/storage.js](./src/services/storage.js)                               | IndexedDB untuk state lokal dan migrasi otomatis dari penyimpanan `localStorage` versi lama.                                                                 |
+| [vite.config.js](./vite.config.js)                                                 | Konfigurasi Vue/Vite dan entrypoint untuk semua URL halaman yang digunakan aplikasi.                                                                          |
 | [style.css](./style.css)                                                           | Semua CSS yang dipakai halaman. Aturan aplikasi dibatasi dengan kelas `body` masing-masing halaman.                                                           |
 | [recipe-catalog.js](./recipe-catalog.js)                                           | Data bersama enam kota, 18 resep, bahan, cerita, serta jalur gambar dan stempel.                                                                              |
-| [audio.js](./audio.js)                                                             | Mesin musik latar sintetis, efek suara, dan penyimpanan volume musik/efek; dimuat oleh semua halaman aplikasi.                                                |
+| [audio.js](./audio.js)                                                             | Mesin musik latar sintetis dan efek suara; membaca/menyimpan volume melalui layanan IndexedDB.                                                               |
 | [loading-screen.js](./loading-screen.js)                                           | Menutup layar loading setelah gambar dan font halaman siap; tidak menampilkannya pada panel iframe.                                                         |
 | [script.js](./script.js)                                                           | Menambahkan kelas `concept-ready` setelah DOM siap. File ini saat ini tidak ditautkan oleh halaman HTML.                                                      |
 | `assets/logo/logolomba.jpg`                                                        | Logo sumber asli; dipertahankan tanpa perubahan.                                                                                                             |
@@ -24,7 +29,9 @@ Dokumen ini menjelaskan struktur HTML, tanggung jawab stylesheet, dan fungsi/eve
 | `assets/Stample/stempel-{banten,jakarta,bandung,semarang,yogyakarta,surabaya}.png` | Gambar hadiah dan koleksi buku stempel; pemetaan kota mengikuti label pada stempel, tidak urutan gambar di lembar sumber.                                     |
 | `assets/gambar-masakan/`                                                           | Folder untuk menyimpan gambar resep lain yang akan ditambahkan berikutnya.                                                                                    |
 
-> Mayoritas JavaScript masih berada di dalam tag `<script>` tiap file HTML. `style.css` adalah stylesheet bersama, bukan JavaScript bersama.
+Jalankan `npm install`, lalu `npm run dev` untuk pengembangan atau `npm run build` untuk membuat build produksi. File route HTML di root adalah entry Vite, sedangkan konten halaman dan skrip lama dipasang oleh komponen Vue `LegacyPage`.
+
+Progres permainan (`ayoMasakProgress`) dan pengaturan audio (`ayoMasakAudioSettings`) disimpan di IndexedDB database `ayomasak-local`, object store `app-state`. Pada penggunaan pertama setelah migrasi, nilai `localStorage` lama dipindahkan ke IndexedDB, lalu key lama dihapus setelah transaksi berhasil.
 
 Layar loading bersama memakai logo aplikasi, warna hangat, dan bingkai bergaya permainan. Indikator bergerak selama gambar/font disiapkan, lalu layar memudar setelah siap; halaman yang berjalan di iframe tidak menampilkan layar loading kedua.
 

@@ -278,7 +278,7 @@
     ];
 
     const defaultSave = { completedRegions: [], cookingStamps: [], cookingStampEmojis: {}, completedDishesByCity: {}, stars: 0 };
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify(defaultSave));
+    const saved = JSON.parse(window.AyoStorage.getItem(STORAGE_KEY) || JSON.stringify(defaultSave));
     const state = {
       region: 'jakarta',
       step: 0,
@@ -538,7 +538,7 @@
     applyMapTransform();
 
     function persistProgress() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      window.AyoStorage.setItem(STORAGE_KEY, JSON.stringify({
         completedRegions: [...state.completedRegions],
         cookingStamps: [...state.cookingStamps],
         cookingStampEmojis: state.cookingStampEmojis,

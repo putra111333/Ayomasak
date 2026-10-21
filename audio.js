@@ -14,7 +14,7 @@
   }
 
   function loadSettings() {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = window.AyoStorage.getItem(STORAGE_KEY);
     if (!stored) return { ...DEFAULT_SETTINGS };
     try {
       return normalizeSettings(JSON.parse(stored));
@@ -31,7 +31,7 @@
   let musicStarted = false;
 
   function saveSettings() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    window.AyoStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   }
 
   function getAudioContext() {
@@ -155,9 +155,9 @@
   if (!embedded) {
     document.addEventListener('pointerdown', startMusic, { once: true, capture: true });
     document.addEventListener('keydown', startMusic, { once: true, capture: true });
-    window.addEventListener('storage', event => {
-      if (event.key !== STORAGE_KEY || !event.newValue) return;
-      settings = normalizeSettings(JSON.parse(event.newValue));
+    window.addEventListener('ayo-storage-change', event => {
+      if (event.detail?.key !== STORAGE_KEY || !event.detail.value) return;
+      settings = normalizeSettings(JSON.parse(event.detail.value));
       updateGains();
     });
   }

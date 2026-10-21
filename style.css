@@ -1124,7 +1124,7 @@ body.page-home .progress-chip{
 
     body.page-home .map-wave-detail{
       position: absolute;
-      background-image: url("assets/maps-wave-details.png");
+      background-image: url("/assets/maps-wave-details.png");
       background-repeat: no-repeat;
       pointer-events: none;
       animation: map-wave-to-shore var(--wave-duration) cubic-bezier(.35,.04,.72,.42) var(--wave-delay) infinite both;
